@@ -11,8 +11,15 @@ module SocialStream
         subtype_of :activity_object,
                    :build => { :object_type => to_s }
 
-        has_one  :channel, :through => :activity_object
-        has_many :activity_object_activities, :through => :activity_object
+        has_one  :channel,
+                 :through => :activity_object
+        has_many :activity_object_activities,
+                 :through => :activity_object
+        has_many :activity_object_actions,
+                 :through => :activity_object
+        has_many :action_actors,
+                 :through => :activity_object_actions,
+                 :source  => :actor
 
         unless self == Actor
           validates_presence_of :author_id, :owner_id, :user_author_id

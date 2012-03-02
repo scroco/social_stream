@@ -17,9 +17,9 @@ module SocialStream
             k.build_post_activity.allow?(subject, 'create')
           end
 
-          can :read, klass do |k| # can :read, Post do |post|
-            k.post_activity.allow?(subject, 'read')
-          end
+          can :read, klass,
+              :activity_object_actions =>
+                { :actor_id => [ subject.try(:actor_id), Anonymous.instance.id ].compact } 
 
           can :update, klass do |k| # can :update, Post do |post|
             k.post_activity.allow?(subject, 'update')
